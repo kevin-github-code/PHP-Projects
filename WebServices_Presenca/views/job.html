@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title> Oportunidades de emprego </title>
+	<link rel="stylesheet" type="text/css" href="../public/jobs.css">	
+</head>
+<body class="body-wrapper">
+
+	<div class="job-description">
+		
+	</div>
+
+<script type="text/javascript" src="../public/jquery-3.7.0.js"></script>
+<script type="text/javascript">
+
+	$(document).ready(function (){
+
+		let obterParametroUrl = function obterParametroUrl(parametroPesquisa) {
+			let urlPaginaPesquisa = window.location.search.substring(1),
+			urlVariaveisPesquisa = urlPaginaPesquisa.split('&'),
+			nomeParametroPesquisa,
+			i;
+
+			for (i = 0; i < urlVariaveisPesquisa.length; i++) {
+				nomeParametroPesquisa = urlVariaveisPesquisa[i].split('=');
+
+				if (nomeParametroPesquisa[0] === parametroPesquisa) {
+					return nomeParametroPesquisa[1] === undefined ? true : decodeURIComponent(nomeParametroPesquisa[1]);
+				}
+			}
+			return false;
+		};
+
+		let jobIdObject = {};
+		jobIdObject['jobId'] = obterParametroUrl('jobId');
+		console.log(jobIdObject);
+
+		let html = '';
+
+		$.ajax({
+			url: '../controllers/jobController.php',
+			method: 'post',
+			data: {'dados' : JSON.stringify(jobIdObject)},
+			dataType: 'html',
+			success: function(resposta){
+
+				console.log(resposta);
+
+				let objects = JSON.parse(resposta);
+
+				console.log(objects);
+
+				html = '<h2>'+objects.title.rendered+'</h2>';
+
+				$('.job-description').html(html);
+
+			}
+		});
+
+	});
+</script>
+</body>
+</html>

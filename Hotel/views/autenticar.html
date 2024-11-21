@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Iniciar Sessão</title>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="../public/jobs.css">
+</head>
+<body>
+	<div class="container">
+		<form >
+
+			<h3 class="container__title">Iniciar Sessão </h3>
+
+			<input 
+				id="auth_email" 
+				type="email" 
+				name="email" 
+				placeholder="Email" 
+				class="container__input" >
+
+			<input 
+				id="auth_password" 
+				type="password" 
+				name="senha" 
+				placeholder="Senha" 
+				class="container__input" >
+
+			<input 
+				id="auth_submit" 
+				type="button" 
+				name="entrar" 
+				class="container__button" 
+				value="Entrar" />
+		</form>
+
+	</div>
+
+	<script type="text/javascript" src="../public/jquery-3.7.0.js"></script>
+	<script type="text/javascript">
+
+		$(document).ready(function (){
+
+			$('input:button').click(function()
+			{
+				let administrador = {};
+				administrador['email'] = document.getElementById("auth_email").value;
+				administrador['senha'] = document.getElementById("auth_password").value;
+				administrador['isAuth'] = true;
+				
+				console.log(administrador);
+
+				$.ajax({
+					url: '../controllers/AdministradorCtrl.php',
+					method: 'post',
+					data: {'dados' : JSON.stringify(administrador)},
+					dataType: 'json',
+					success: function(respostaAutenticacao){
+						console.log(respostaAutenticacao);
+						
+						if(respostaAutenticacao.seAutenticado) window.location.href = '../paginaInicial.html';
+						else alert("Não foi autenticado.");
+
+					}
+				});
+			});
+		});
+	</script>
+</body>
+</html>

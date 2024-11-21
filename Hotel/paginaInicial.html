@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Página Inicial</title>
+        <style>
+        .menu {
+            background-color: #96b5dd ;
+            height: 100%;
+            width: 200px;
+            position: fixed;
+            left: 0;
+            top: 0;
+            overflow-x: hidden;
+            padding-top: 20px;
+        }
+    
+        .menu ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+    
+        .menu li a {
+            display: block;
+            color: #000;
+            padding: 8px 16px;
+            text-decoration: none;
+        }
+    
+        .menu li a:hover {
+            background-color: #555;
+            color: white;
+        }
+    
+        .content {
+            margin-left: 200px;
+            padding: 1px 16px;
+            height: 1000px;
+            background-color: white;
+        }
+            input[type="submit"],input[type="button"]  {
+            background-color: steelblue;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 200px;
+            height: 50px;
+        }
+        input[type="submit"]:hover, input[type="button"]:hover {
+           background-color:  rgba(8, 137, 141, 0.836);
+            
+        }
+        </style>
+</head>
+<body>
+	<div class="menu">
+        <input type="submit" value="Ver Administradores" id="A">
+        <input type="submit" value="Registar Estudante" id="E">
+        <input type="submit" value="Criar Turma" id="T">
+        <input type="submit" value="Marcar Presenca" id="P">
+        <input type="submit" name="logout" value="Terminar Sessao" onclick="logout()">
+	</div>
+	<div class="content">
+            <h1>Bem Vindo a Pagina Inicial do Projecto Presenca</h1>
+    <div id="administradores">
+        <table>
+            <thead>
+                <th>ID</th>
+                <th>Email</th>
+                <th>Nome</th>
+                <th>Senha</th>
+            </thead>
+            <tbody id="tbadmin"></tbody>
+        </table>
+    </div>
+    <div id="estudante">
+            <form method="post">
+            <h2 class="container__title">Cadastrar Aluno </h2>
+            <input type="text" name="est_nome" id="estudante_nome" class="container__input" placeholder="Nome"><br><br>
+            <input type="text" name="est_sobrenome" id="estudante_sobrenome" class="container__input" placeholder="Sobrenome"><br><br>
+            <input type="text" name="est_sexo" id="estudante_sexo" class="container__input" placeholder="Sexo"><br><br>
+            <input type="text" name="est_endereco" id="estudante_endereco" class="container__input" placeholder="Endereco"><br><br>
+            <select name="est_turmaId" id="estudante_turmaId"></select><br><br>
+            <input type="button" name="aluno" id="RE" class="container__input" value="Registar Estudante">
+            <input type="button" name="aluno1" id="VE" class="container__input" value="Ver Estudantes">
+            </form><br>
+            <div id="tableEstudante">
+            <table>
+                <thead>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Sobrenome</th>
+                    <th>Sexo</th>
+                    <th>Endereco</th>
+                    <th>Turma Id</th>
+                </thead>
+                <tbody id="tbody"></tbody>
+            </table>
+            </div>
+    </div>
+    <div id="turma">
+        <form method="post">
+            <h2 class="container__title">Turmas</h2>
+            <input type="text" id="turma_nome" name="tur_nome" class="container__input" placeholder="Nome"><br><br>
+            <input type="text" id="turma_turno" name="tur_turno" class="container__input" placeholder="Turno"><br><br>
+            <input type="submit" name="registar" id="RT" class="container__input" value="Registar">
+            <input type="button" name="aluno1" id="VT" class="container__input" value="Ver Turmas">
+        </form>
+        <div id="tableTurmas">
+            <table>
+                <thead>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Turno</th>
+                </thead>
+                <tbody id="tbturma"></tbody>
+            </table>
+        </div>
+    </div>
+    <div id="presenca">
+        <form method="post">
+            <h2 class="container__title">Presenca </h2>
+            <select name="pres_estudanteId" id="presenca_estudanteId"></select><br><br>
+            <select name="pres_listaId" id="presenca_listaId"></select><br><br>
+            <input type="submit" name="registar" id="RP" class="container__input" value="Marcar">
+            <input type="button" name="ver" id="VerP" class="container__input" value="Ver Presencas">
+            </form>
+            <div id="tablePresenca">
+                <table>
+                    <thead>
+                        <th>ID</th>
+                        <th>AdministradorId</th>
+                        <th>EstudanteId</th>
+                        <th>Lista Id</th>
+                        <th>Data</th>
+                    </thead>
+                    <tbody id="tbpresenca"></tbody>
+                </table>
+            </div>
+    </div>  
+    </div>
+</body>
+</html>
+<script type="text/javascript" src="./scripts/jquery.js"></script>
+<script>
+        function logout() {
+        // enviar uma solicitação AJAX para o script PHP que encerra a sessão
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.open("GET", "logout.php", true);
+        xmlhttp.send();
+        window.location.href = 'index.html';
+        }
+</script>
+<script type="text/javascript" src="./public/script.js"></script>
+<script type="text/javascript">
+    $(document).ready(()=>{
+    $("#estudante").hide();
+    $("#turma").hide();
+    $("#presenca").hide();
+    $("#listas").hide();
+    $('#administradores').hide();
+    $('#tablePresenca').hide();
+
+    $("#A").on("click",()=>{
+        $("#administradores").toggle();
+        $("#estudante").hide();
+        $("#turma").hide();
+        $("#presenca").hide();
+        $("#listas").hide();
+        
+    });
+    $.ajax({
+                url: './controllers/tabelaAdmin.php',
+                method: 'GET',
+                dataType: 'JSON',
+                success: function(resposta){
+            
+                    let dadosAdmin=JSON.stringify(resposta);
+                    let datass =JSON.parse(dadosAdmin);
+                    console.log(datass)
+                    let html="";
+                    for (let k = 0; k < datass.length; k++) {
+
+                    html= `<tr>
+                        <td>${datass[k].id}</td>
+                        <td>${datass[k].email}</td>
+                        <td>${datass[k].nome}</td>
+                        <td>${datass[k].senha}</td>
+                    </tr>`;
+                    
+                    $('#tbadmin').append(html);           
+                    
+            }
+    }});
+
+    $("#E").on("click",()=>{
+        $("#estudante").toggle();
+        $("#turma").hide();
+        $("#presenca").hide();
+        $("#listas").hide();
+        $("#tableEstudante").hide();
+        $('#administradores').hide();
+    });
+    
+    $("#T").on("click",()=>{
+        $("#turma").toggle();
+        $("#estudante").hide();
+        $("#presenca").hide();
+        $("#listas").hide();
+        $("#tableTurmas").hide();
+        $('#administradores').hide();
+    });
+
+    $("#P").on("click",()=>{
+        $("#presenca").toggle();
+        $("#turma").hide();
+        $("#estudante").hide();
+        $("#listas").hide();
+        $('#administradores').hide();
+    });
+
+    $("#L").on("click",()=>{
+        $("#listas").toggle();
+        $("#turma").hide();
+        $("#presenca").hide();
+        $("#estudante").hide();
+        $('#administradores').hide();
+    });
+    $("#VE").click(()=>{
+        $("#tableEstudante").toggle();
+    });
+    $("#VT").click(()=>{
+        $("#tableTurmas").toggle();
+    });
+    $('#RP').click(function(){
+    let presenca = {};
+    let data=new Date();
+    presenca['pres_estudanteId'] = document.getElementById("presenca_estudanteId").value;
+    presenca['pres_listaId'] = document.getElementById("presenca_listaId").value;
+    presenca['data'] =data.toISOString();
+    
+    console.log(presenca);
+    console.log("Work");
+
+    $.ajax({
+        url: './controllers/MP.php',
+        method: 'post',
+        data: {'dados' : JSON.stringify(presenca)},
+        dataType: 'html',
+        success: function(resposta){
+            console.log(resposta);
+            console.log("Tchau");
+
+            if(resposta.seCriado) window.location.href = "paginaInicial.html";
+            else alert("A presenca não foi registada!");
+            
+        }
+    });
+});
+    $.ajax({
+        url: './controllers/ListaCtrl.php',
+                method: 'GET',
+                dataType: 'JSON',
+                success: function(respostas){
+            
+                    let data1=JSON.stringify(respostas);
+                    let data =JSON.parse(data1);
+                    let html="";
+                    for (let k = 0; k < data.length; k++) {
+
+                    html= `<option value='${data[k].id}'>${data[k].nome}</option>`;
+                    console.log(" ok")
+                    
+                    $('#presenca_listaId').append(html);           
+                    }
+            }
+    });
+    $.ajax({
+        url: './controllers/EstudanteCtrl.php',
+                method: 'GET',
+                dataType: 'JSON',
+                success: function(respostas){
+            
+                    let data1=JSON.stringify(respostas);
+                    let data =JSON.parse(data1);
+                    let html="";
+                    for (let k = 0; k < data.length; k++) {
+
+                    html= `<option value='${data[k].id}'>${data[k].nome}</option>`;
+                    console.log(" ok")
+                    
+                    $('#estudante_turmaId').append(html);           
+                    }
+            }
+    });
+    $.ajax({
+                url: './controllers/tabelaEst.php',
+                method: 'GET',
+                dataType: 'JSON',
+                success: function(respostas){
+            
+                    let dados=JSON.stringify(respostas);
+                    let data5 =JSON.parse(dados);
+                    let html="";
+                    for (let k = 0; k < data5.length; k++) {
+
+                    html= `<tr>
+                        <td>${data5[k].id}</td>
+                        <td>${data5[k].nome}</td>
+                        <td>${data5[k].sobrenome}</td>
+                        <td>${data5[k].sexo}</td>
+                        <td>${data5[k].endereco}</td>
+                        <td>${data5[k].turma_id}</td>
+                    </tr>`;
+                    
+                    $('#tbody').append(html);           
+                    
+            }
+    }});
+    $.ajax({
+                url: './controllers/MP2.php',
+                method: 'GET',
+                dataType: 'JSON',
+                success: function(respostas){
+            
+                    let dadoP=JSON.stringify(respostas);
+                    let datapp =JSON.parse(dadoP);
+                    let html="";
+                    for (let k = 0; k < datapp.length; k++) {
+
+                    html= `<tr>
+                        <td>${datapp[k].id}</td>
+                        <td>${datapp[k].administrador_id}</td>
+                        <td>${datapp[k].estudante_id}</td>
+                        <td>${datapp[k].lista_id}</td>
+                        <td>${datapp[k].data}</td>
+                    </tr>`;
+                    
+                    $('#tbpresenca').append(html);           
+                    
+            }
+    }});
+    $.ajax({
+                url: './controllers/TurmaCtrl.php',
+                method: 'GET',
+                dataType: 'JSON',
+                success: function(respostas){
+            
+                    let dados6=JSON.stringify(respostas);
+                    let data7 =JSON.parse(dados6);
+                    let html="";
+                    for (let k = 0; k < data7.length; k++) {
+
+                    html= `<tr>
+                        <td>${data7[k].id}</td>
+                        <td>${data7[k].nome}</td>
+                        <td>${data7[k].turno}</td>
+                    </tr>`;
+                    
+                    $('#tbturma').append(html);           
+                    
+            }
+    }});
+    $.ajax({
+                url: './controllers/PresencaCtrl3.php',
+                method: 'GET',
+                dataType: 'JSON',
+                success: function(respostass){
+            
+                    let data3=JSON.stringify(respostass);
+                    let data2 =JSON.parse(data3);
+                    let html="";
+                    for (let k = 0; k < data2.length; k++) {
+
+                    html= `<option value='${data2[k].id}'>${data2[k].nome}</option>`;
+                    console.log("Funcionou")
+                    
+                    $('#presenca_estudanteId').append(html);           
+                    
+            }
+    }});
+    $('#RE').click(function(){
+        let estudante= {};
+        estudante['est_nome'] = document.getElementById("estudante_nome").value;
+        estudante['est_sobrenome'] = document.getElementById("estudante_sobrenome").value;
+        estudante['est_sexo'] = document.getElementById("estudante_sexo").value;
+        estudante['est_endereco'] = document.getElementById("estudante_endereco").value;
+        estudante['est_turmaId'] = document.getElementById("estudante_turmaId").value;
+        
+        
+        console.log(estudante);
+
+        $.ajax({
+            url: './controllers/EstudanteCtrl.php',
+            method: 'post',
+            data: {'dado' : JSON.stringify(estudante)},
+            dataType: 'json',
+            success: function(resposta){
+
+                console.log(resposta);
+
+                if(resposta.seCriado) window.location.href = "paginaInicial.html";
+                else alert("O Estudante não foi registado!");
+                
+            }
+    });
+});
+
+$('#RT').click(function(){
+    let turma = {};
+    turma['tur_nome'] = document.getElementById("turma_nome").value;
+    turma['tur_turno'] = document.getElementById("turma_turno").value;
+    
+    console.log(turma);
+
+    $.ajax({
+        url: './controllers/TurmaCtrl.php',
+        method: 'post',
+        data: {'dados' : JSON.stringify(turma)},
+        dataType: 'json',
+        success: function(resp){
+            if(resposta.seCriado) window.location.href = "paginaInicial.html";
+            else alert("A turma não foi criada!");
+        }  
+        });
+    });
+
+    $('#VerP').click(function(){
+    $('#tablePresenca').toggle();
+    });
+});
+</script>

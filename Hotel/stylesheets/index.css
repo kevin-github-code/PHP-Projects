@@ -1,0 +1,44 @@
+/* Estilo básico para a página inicial do Microsoft 365 */
+
+/* Define a cor de fundo e a fonte para todo o documento */
+body {
+    background-image: url(../imagens/20.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    font-family: "SegoeUI,Helvetica,Arial,sans-serif";
+    width: 100%;
+}
+
+/* Define o estilo do cabeçalho, que contém os links e os botões */
+header {
+    background-color: #ffffff00;
+    padding: 10px;
+    text-align: right;
+}
+
+/* Define o estilo do conteúdo principal, que contém o título, o parágrafo, os botões e a imagem */
+.main-content {
+    padding: 50px;
+    text-align: center;
+    color: white;
+}
+
+/* Define o estilo dos botões, que têm uma cor azul, uma borda arredondada e um efeito de sombra */
+button {
+    padding: 10px 20px;
+    margin: 20px;
+    font-size: large;
+    background-color: #464FEB;;
+    border-radius: 5px;
+    box-shadow: 2px 2px 5px #888888;
+    color: white;
+}
+
+/* Define o estilo da imagem, que tem uma largura máxima de 80% e uma margem automática */
+img {
+    max-width: 80%;
+    margin: auto;
+}
+p,li{
+    text-align: justify;
+}

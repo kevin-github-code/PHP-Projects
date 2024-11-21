@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+	<html>
+	<head>
+		<title>Criar Conta</title>
+		<meta charset="UTF-8">
+		<link rel="stylesheet" type="text/css" href="../public/jobs.css">
+	</head>
+	<body>
+
+		<div class="container">
+			<form >
+				
+				<h3 class="container__title">Crie a sua conta </h3>
+
+				<input 
+					id = "util_nome"
+					type="text" 
+					name="utilizador" 
+					placeholder="Nome do utilizador" 
+					class="container__input">
+
+				<input 
+					id = "util_email"
+					type="email" 
+					name="email" 
+					placeholder="Email" 
+					class="container__input">
+
+				<input 
+					id = "util_senha"
+					type="password" 
+					name="senha" 
+					placeholder="Senha" 
+					class="container__input">
+
+				<input
+					id = "util_registar" 
+					type="button" 
+					name="registar" 
+					class="container__button" 
+					value = "Registar" />
+
+			</form>
+
+		</div>
+	<script type="text/javascript" src="../public/jquery-3.7.0.js"></script>
+	<script type="text/javascript">
+
+		$(document).ready(function (){
+
+			$('input:button').click(function(){
+				let administrador = {};
+				administrador['email'] = document.getElementById("util_email").value;
+				administrador['nome'] = document.getElementById("util_nome").value;
+				administrador['senha'] = document.getElementById("util_senha").value;
+				administrador['isAuth'] = false;
+				
+				console.log(administrador);
+
+				$.ajax({
+					url: '../controllers/AdministradorCtrl.php',
+					method: 'POST',
+					data: {'dados' : JSON.stringify()},
+					dataType: 'JSON',
+					success: function(resposta){
+
+						console.log(resposta);
+
+						if(resposta.seCriado) window.location.href = "autenticar.html";
+						else alert("O utilizador não foi registado!");
+						
+					}
+				});
+			});
+		});
+	</script>
+	</body>
+	</html>

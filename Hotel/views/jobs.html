@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Oportunidades de emprego</title>
+	<link rel="stylesheet" type="text/css" href="../public/jobs.css">	
+</head>
+<body class="body-wrapper">
+
+	<div class="job-description">
+		<div class="job-description--header">Oportunidades</div>
+		<ul class="job-description--list">
+			
+				<li class="job-description--item">
+
+					<div class="job-description--self">
+						<img class="job-description--org__logo" src=""/>
+						<div class="job-description--org__details">
+
+							<div class="job-description--org__details-title">{article.title.rendered}</div>
+
+							<div class="job-description--org__details-expireAt"> {article.acf.validade_do_concurso}</div>
+
+							<div class="job-description--org__details-inline">
+								<div class="job-description--org__details-name">
+									
+									<div class="job-description--org__details-name--text">{article.acf.organizacao}</div>
+
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</li>         
+		</ul>
+	</div>
+</div>
+
+<script type="text/javascript" src="../public/jquery-3.7.0.js"></script>
+<script type="text/javascript">
+
+	$(document).ready(function (){
+
+		$.ajax({
+			url: '../controllers/jobsController.php',
+			method: 'get',
+			data: $('form:first').serialize(),
+			dataType: 'html',
+			success: function(resposta){
+
+				console.log(resposta);
+
+				let objects = JSON.parse(resposta);
+				let html = '';
+				let link = "/oportunity-readmode?utm_for_token="
+				console.log(objects);
+				for (let i = 0; i < objects.length; i++) {
+					html += '<li class="job-description--item"> <a href="job.html?jobId='+objects[i].id+'"><div class="job-description--self"><img class="job-description--org__logo" src="'+objects[i].jetpack_featured_media_url+'"/><div class="job-description--org__details"><div class="job-description--org__details-title">'+objects[i].title.rendered+'</div><div class="job-description--org__details-expireAt">'+objects[i].acf.validade_do_concurso+'</div><div class="job-description--org__details-inline"><div class="job-description--org__details-name"><div class="job-description--org__details-name--text">'+objects[i].acf.organizacao+'</div></div></div></div></div></a></li>';
+
+				};
+
+				$('.job-description--list').html(html);
+
+			}
+		});
+	});
+</script>
+</body>
+</html>

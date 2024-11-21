@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title> Perfil</title>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="../public/jobs.css">
+</head>
+<body class="body-wrapper">
+
+	<div class="job-description">
+		
+	</div>
+
+	<script type="text/javascript" src="../public/jquery-3.7.0.js"></script>
+	<script type="text/javascript">
+
+		$(document).ready(function (){
+
+				let utilizador = {};
+				utilizador['teste'] = "OK";
+
+				
+				console.log(utilizador);
+
+				$.ajax({
+					url: '../controllers/utilizadorCtrl.php',
+					method: 'get',
+					data: {'dados' : JSON.stringify(utilizador)},
+					dataType: 'json',
+					success: function(resposta){
+
+						console.log(resposta);
+
+						// redirecionar a pagina
+						// window.location.href = "job.html";
+
+						html = '<h2>OK</h2>';
+
+						$('.job-description').html(html);
+
+					}
+				});
+			});
+	</script>
+</body>
+</html>
